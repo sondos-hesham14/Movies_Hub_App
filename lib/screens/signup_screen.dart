@@ -154,7 +154,7 @@ class _SignupScreenState extends State<SignupScreen>{
                          onTap: () {Navigator.push( context,
                          MaterialPageRoute(
                          builder: (context) => const LoginScreen(), ), );},
-                         child: const Text('Sign Up',style: TextStyle(color: Colors.white,fontSize: 12,),), ),
+                         child: const Text('Sign in',style: TextStyle(color: Colors.white,fontSize: 12,),), ),
                       ],
                     )
                 ],
