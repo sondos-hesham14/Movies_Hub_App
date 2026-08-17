@@ -1,25 +1,18 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'movie_details_state.dart';
-import '../../models/movie_model.dart'; 
+import 'package:movies_hub_app/models/movie.dart';
+import 'package:movies_hub_app/models/movie_model.dart';
 
-class MovieDetailsCubit extends Cubit<MovieDetailsState> {
-  MovieDetailsCubit() : super(MovieDetailsInitial());
+class MovieCubit extends Cubit<MovieState> {
+  MovieCubit() : super(MovieInitial());
 
-  void loadMovieDetails(Movie movie) {
-    emit(MovieDetailsLoading());
+  Future<void> getmovie() async {
+    emit(MovieLoading());
     try {
-      emit(MovieDetailsLoaded(movie: movie));
+      final movies = await service().getmovie();
+      emit(MovieLoaded(movies));
     } catch (e) {
-      emit(MovieDetailsError("Failed to load movie details"));
-    }
-  }
-
-  void toggleBookmark() {
-    if (state is MovieDetailsLoaded) {
-      final currentState = state as MovieDetailsLoaded;
-      emit(currentState.copyWith(
-        isBookmarked: !currentState.isBookmarked,
-      ));
+      emit(MovieError(e.toString()));
     }
   }
 }

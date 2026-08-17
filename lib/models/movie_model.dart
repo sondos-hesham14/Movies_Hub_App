@@ -1,29 +1,22 @@
-class CastMember {
-  final String name;
-  final String imageUrl;
+import 'package:dio/dio.dart';
+import 'movie.dart';
 
-  CastMember({
-    required this.name,
-    required this.imageUrl,
-  });
-}
+class service {
+  final dio = Dio(
+    BaseOptions(
+      baseUrl: 'https://api.themoviedb.org/3',
+      queryParameters: {'api_key': '6961a5d3cf78c748ab254604facb546b'},
+    ),
+  );
 
-class Movie {
-  final String title;
-  final String genre;
-  final String duration;
-  final double rating;
-  final String synopsis;
-  final String posterUrl;
-  final List<CastMember> cast;
-
-  Movie({
-    required this.title,
-    required this.genre,
-    required this.duration,
-    required this.rating,
-    required this.synopsis,
-    required this.posterUrl,
-    required this.cast,
-  });
+  Future<List<movie>> getmovie() async {
+    try {
+      final Response<dynamic> response = await dio.get('/movie/popular');
+      return (response.data['results'] as List)
+          .map((json) => movie.fromjson(json))
+          .toList();
+    } on DioException catch (e) {
+      throw Exception('Failed to load movie: $e');
+    }
+  }
 }

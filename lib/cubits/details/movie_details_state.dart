@@ -1,33 +1,19 @@
-import 'package:flutter/foundation.dart';
-import '../../models/movie_model.dart';
-@immutable
-abstract class MovieDetailsState {}
+import 'package:movies_hub_app/models/movie.dart';
 
-class MovieDetailsInitial extends MovieDetailsState {}
+class MovieState {}
 
-class MovieDetailsLoading extends MovieDetailsState {}
+class MovieInitial extends MovieState {}
 
-class MovieDetailsLoaded extends MovieDetailsState {
-  final Movie movie;
-  final bool isBookmarked;
+class MovieLoading extends MovieState {}
 
-  MovieDetailsLoaded({
-    required this.movie,
-    this.isBookmarked = false,
-  });
+class MovieLoaded extends MovieState {
+  final List<movie> movies;
 
-  MovieDetailsLoaded copyWith({
-    Movie? movie,
-    bool? isBookmarked,
-  }) {
-    return MovieDetailsLoaded(
-      movie: movie ?? this.movie,
-      isBookmarked: isBookmarked ?? this.isBookmarked,
-    );
-  }
+  MovieLoaded(this.movies);
 }
 
-class MovieDetailsError extends MovieDetailsState {
+class MovieError extends MovieState {
   final String message;
-  MovieDetailsError(this.message);
+
+  MovieError(this.message);
 }
