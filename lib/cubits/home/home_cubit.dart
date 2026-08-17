@@ -1,22 +1,36 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_hub_app/models/movie.dart';
+import 'package:movies_hub_app/models/movie_model.dart';
 
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeInitial());
 
-  // دالة جلب الأفلام - نترك المكان جاهز لاستدعاء الـ API من Dev 6
-  void fetchHomeMovies() async {
+  Future<void> fetchHomeMovies() async {
     emit(HomeLoading());
+
     try {
-      // Dev 6 هيستدعي الـ API هنا ويرجع البيانات الحقيقية
-      // حالياً نمرر قائمة فاضية لحين ربط الـ API
-      emit(HomeLoaded(
-        popularMovies: [],
-        topRatedMovies: [],
-      ));
+      final movies = await service().getmovie();
+
+      emit(
+        HomeLoaded(
+          popularMovies: movies
+              .map(
+                (movie) => {
+                  'title': movie.name,
+                  'posterPath': movie.posterPath.isNotEmpty
+                      ? 'https://image.tmdb.org/t/p/w500${movie.posterPath}'
+                      : '',
+                  'rating': movie.rating,
+                },
+              )
+              .toList(),
+          topRatedMovies: [],
+        ),
+      );
     } catch (e) {
-      emit(HomeError(message: 'Failed to load movies'));
+      emit(HomeError(message: e.toString()));
     }
   }
 }
