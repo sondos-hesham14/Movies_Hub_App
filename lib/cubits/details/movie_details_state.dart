@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import '../models/movie_model.dart';
+import '../../models/movie_model.dart';
 @immutable
 abstract class MovieDetailsState {}
 
