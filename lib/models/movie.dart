@@ -1,4 +1,4 @@
-class movie {
+class Movie {
   final String name;
   final int id;
   final String description;
@@ -6,7 +6,7 @@ class movie {
   final double rating;
   final String posterPath;
 
-  const movie({
+  const Movie({
     required this.name,
     required this.id,
     required this.description,
@@ -15,8 +15,8 @@ class movie {
     required this.posterPath,
   });
 
-  factory movie.fromjson(Map<String, dynamic> json) {
-    return movie(
+  factory Movie.fromJson(Map<String, dynamic> json) {
+    return Movie(
       name: json['title'] ?? '',
       id: json['id'] ?? 0,
       description: json['overview'] ?? '',

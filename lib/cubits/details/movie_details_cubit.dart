@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'movie_details_state.dart';
-import 'package:movies_hub_app/models/movie.dart';
-import 'package:movies_hub_app/models/movie_model.dart';
+import '../../models/movie.dart';
+import '../../models/movie_model.dart';
 
 class MovieCubit extends Cubit<MovieState> {
   MovieCubit() : super(MovieInitial());
@@ -9,7 +9,7 @@ class MovieCubit extends Cubit<MovieState> {
   Future<void> getmovie() async {
     emit(MovieLoading());
     try {
-      final movies = await service().getmovie();
+      final movies = await Service().getmovie();
       emit(MovieLoaded(movies));
     } catch (e) {
       emit(MovieError(e.toString()));

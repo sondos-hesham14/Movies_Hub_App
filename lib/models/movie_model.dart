@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'movie.dart';
 
-class service {
+class Service {
   final dio = Dio(
     BaseOptions(
       baseUrl: 'https://api.themoviedb.org/3',
@@ -9,14 +9,28 @@ class service {
     ),
   );
 
-  Future<List<movie>> getmovie() async {
+  Future<List<Movie>> getmovie() async {
     try {
       final Response<dynamic> response = await dio.get('/movie/popular');
       return (response.data['results'] as List)
-          .map((json) => movie.fromjson(json))
+          .map((json) => Movie.fromJson(json))
           .toList();
     } on DioException catch (e) {
       throw Exception('Failed to load movie: $e');
     }
   }
+
+  Future<List<Movie>> searchMovies(String query) async {
+  try {
+    final response = await dio.get(
+      '/search/movie',
+      queryParameters: {'query': query},
+    );
+    return (response.data['results'] as List)
+        .map((json) => Movie.fromJson(json))
+        .toList();
+  } on DioException catch (e) {
+    throw Exception('Failed to search movies: $e');
+  }
+}
 }

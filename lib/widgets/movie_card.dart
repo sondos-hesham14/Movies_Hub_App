@@ -16,11 +16,16 @@ class MovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String fullImageUrl = posterPath.isNotEmpty
+        ? (posterPath.startsWith('http')
+            ? posterPath
+            : 'https://image.tmdb.org/t/p/w500$posterPath')
+        : '';
+
     return GestureDetector(
       onTap: onTap,
+      behavior: HitTestBehavior.opaque,
       child: Container(
-        width: 130,
-        margin: const EdgeInsets.only(right: 12),
         decoration: BoxDecoration(
           color: const Color(0xFF1E1E1E),
           borderRadius: BorderRadius.circular(12),
@@ -31,17 +36,20 @@ class MovieCard extends StatelessWidget {
             Expanded(
               child: ClipRRect(
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-                child: posterPath.isNotEmpty
+                child: fullImageUrl.isNotEmpty
                     ? Image.network(
-                        posterPath,
+                        fullImageUrl,
                         width: double.infinity,
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) =>
-                            const Icon(Icons.movie, size: 50, color: Colors.grey),
+                             Container(
+                              color: Colors.grey,
+                              child: Center(child: Icon(Icons.movie, size: 40, color: Colors.white)),
+                            ),
                       )
                     : Container(
                         color: Colors.grey,
-                        child: Center(child: Icon(Icons.movie, color: Colors.white)),
+                        child: const Center(child: Icon(Icons.movie, color: Colors.white)),
                       ),
               ),
             ),

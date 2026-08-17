@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../cubits/models/movie_model.dart';
+import '../models/movie.dart';
 
 class MovieDetailsScreen extends StatelessWidget {
   final Movie movie;
@@ -22,7 +22,7 @@ class MovieDetailsScreen extends StatelessWidget {
                 Stack(
                   children: [
                     Image.network(
-                      movie.posterUrl,
+                      movie.posterPath,
                       height: 380,
                       width: double.infinity,
                       fit: BoxFit.cover,
@@ -69,7 +69,7 @@ class MovieDetailsScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        movie.genre,
+                        movie.ReleaseDate,
                         style: const TextStyle(
                           color: Color(0xFFFF2D55),
                           fontSize: 12,
@@ -79,7 +79,7 @@ class MovieDetailsScreen extends StatelessWidget {
                       const SizedBox(height: 6),
 
                       Text(
-                        movie.title,
+                        movie.name,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 24,
@@ -103,7 +103,7 @@ class MovieDetailsScreen extends StatelessWidget {
                           ),
                           const Spacer(),
                           Text(
-                            movie.duration,
+                            movie.ReleaseDate,
                             style: TextStyle(
                               color: Colors.grey[400],
                               fontSize: 12,
@@ -114,7 +114,7 @@ class MovieDetailsScreen extends StatelessWidget {
                       const SizedBox(height: 16),
 
                       Text(
-                        movie.synopsis,
+                        movie.description,
                         style: TextStyle(
                           color: Colors.grey[400],
                           fontSize: 13,
@@ -133,13 +133,13 @@ class MovieDetailsScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 12),
 
-                      SizedBox(
+                    /*  SizedBox(
                         height: 90,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount: movie.cast.length,
+                          itemCount: movie.Cast.length,
                           itemBuilder: (context, index) {
-                            final member = movie.cast[index];
+                            final member = movie.Cast[index];
                             return Container(
                               margin: const EdgeInsets.only(right: 12),
                               width: 64,
@@ -170,7 +170,7 @@ class MovieDetailsScreen extends StatelessWidget {
                             );
                           },
                         ),
-                      ),
+                      ),*/
                       const SizedBox(height: 100), // Padding for Floating Button
                     ],
                   ),

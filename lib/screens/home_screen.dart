@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubits/home/home_cubit.dart';
+import '../models/movie.dart';
 import '../widgets/movie_card.dart';
+import 'movie_details_screen.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -68,21 +71,43 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  SizedBox(
-                    height: 240,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: state.popularMovies.length,
-                      itemBuilder: (context, index) {
-                        final movie = state.popularMovies[index];
-                        return MovieCard(
-                          title: movie['title'] ?? '',
-                          posterPath: movie['posterPath'] ?? '',
-                          rating: (movie['rating'] ?? 0.0).toDouble(),
-                          onTap: () {},
-                        );
-                      },
+                  
+                  // GridView بدلاً من ListView لعرض فيلمين بالصف بشكل طولي
+                  GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.62,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12,
                     ),
+                    itemCount: state.popularMovies.length,
+                    itemBuilder: (context, index) {
+                      final movie = state.popularMovies[index];
+                      return MovieCard(
+                        title: movie['title'] ?? '',
+                        posterPath: movie['posterPath'] ?? '',
+                        rating: (movie['rating'] ?? 0.0).toDouble(),
+                        onTap: () {
+                          final selectedMovie = Movie(
+                            id: movie['id'] ?? 0,
+                            name: movie['title'] ?? '',
+                            description: movie['overview'] ?? movie['description'] ?? '',
+                            ReleaseDate: movie['releaseDate'] ?? movie['ReleaseDate'] ?? '',
+                            rating: (movie['rating'] ?? 0.0).toDouble(),
+                            posterPath: movie['posterPath'] ?? '',
+                          );
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MovieDetailsScreen(movie: selectedMovie),
+                            ),
+                          );
+                        },
+                      );
+                    },
                   ),
                 ],
               ),

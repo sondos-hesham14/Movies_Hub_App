@@ -11,7 +11,7 @@ class HomeCubit extends Cubit<HomeState> {
     emit(HomeLoading());
 
     try {
-      final movies = await service().getmovie();
+      final movies = await Service().getmovie();
 
       emit(
         HomeLoaded(

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../cubits/search/search_cubit.dart';
 import 'home_screen.dart';
-import 'package:movies_hub_app/screens/profile_screen.dart';
+import 'profile_screen.dart';
+import 'search_screen.dart';
 
 class MainLayoutScreen extends StatefulWidget {
   const MainLayoutScreen({super.key});
@@ -14,9 +17,14 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    const Center(child: Text('Search Screen', style: TextStyle(color: Colors.white))), // مكان شاشة البحث
-    const Center(child: Text('Watchlist Screen', style: TextStyle(color: Colors.white))),
-    ProfileScreen(),
+    BlocProvider(
+      create: (context) => SearchCubit(),
+      child: const SearchScreen(),
+    ),
+    const Center(
+      child: Text('Watchlist Screen', style: TextStyle(color: Colors.white)),
+    ),
+    const ProfileScreen(),
   ];
 
   @override
@@ -30,27 +38,19 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
             _currentIndex = index;
           });
         },
-        backgroundColor: const Color(0xFF1E1E1E),
-        selectedItemColor: Colors.red,
-        unselectedItemColor: Colors.grey,
+        backgroundColor: const Color(0xFF121212),
         type: BottomNavigationBarType.fixed,
+        selectedItemColor: const Color(0xFFFF2D55),
+        unselectedItemColor: Colors.grey,
+        showUnselectedLabels: true,
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
           BottomNavigationBarItem(
             icon: Icon(Icons.bookmark),
             label: 'Watchlist',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),
     );
