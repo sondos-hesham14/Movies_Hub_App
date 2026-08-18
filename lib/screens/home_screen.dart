@@ -71,17 +71,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  
+
                   // GridView بدلاً من ListView لعرض فيلمين بالصف بشكل طولي
                   GridView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.62,
-                      crossAxisSpacing: 12,
-                      mainAxisSpacing: 12,
-                    ),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 0.62,
+                          crossAxisSpacing: 12,
+                          mainAxisSpacing: 12,
+                        ),
                     itemCount: state.popularMovies.length,
                     itemBuilder: (context, index) {
                       final movie = state.popularMovies[index];
@@ -92,17 +93,29 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: () {
                           final selectedMovie = Movie(
                             id: movie['id'] ?? 0,
-                            name: movie['title'] ?? '',
-                            description: movie['overview'] ?? movie['description'] ?? '',
-                            ReleaseDate: movie['releaseDate'] ?? movie['ReleaseDate'] ?? '',
-                            rating: (movie['rating'] ?? 0.0).toDouble(),
-                            posterPath: movie['posterPath'] ?? '',
+                            name: movie['title'] ?? movie['name'] ?? '',
+                            description:
+                                movie['overview'] ?? movie['description'] ?? '',
+                            ReleaseDate:
+                                movie['release_date'] ??
+                                movie['releaseDate'] ??
+                                '',
+                            rating:
+                                (movie['vote_average'] ??
+                                        movie['rating'] ??
+                                        0.0)
+                                    .toDouble(),
+                            posterPath:
+                                movie['poster_path'] ??
+                                movie['posterPath'] ??
+                                '',
                           );
 
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => MovieDetailsScreen(movie: selectedMovie),
+                              builder: (context) =>
+                                  MovieDetailsScreen(movie: selectedMovie),
                             ),
                           );
                         },

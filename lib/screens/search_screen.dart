@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubits/search/search_cubit.dart';
 import '../cubits/search/search_stare.dart';
 import '../widgets/movie_card.dart';
+import 'movie_details_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -109,7 +110,15 @@ class _SearchScreenState extends State<SearchScreen> {
                           title: movie.name,
                           posterPath: movie.posterPath,
                           rating: movie.rating,
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    MovieDetailsScreen(movie: movie),
+                              ),
+                            );
+                          },
                         );
                       },
                     );

@@ -6,6 +6,9 @@ class Movie {
   final double rating;
   final String posterPath;
 
+  String get title => name;
+  String get image => posterPath;
+
   const Movie({
     required this.name,
     required this.id,
@@ -25,4 +28,11 @@ class Movie {
       posterPath: json['poster_path'] ?? '',
     );
   }
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Movie && runtimeType == other.runtimeType && id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
 }

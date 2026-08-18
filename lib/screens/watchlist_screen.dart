@@ -11,67 +11,59 @@ class WatchlistScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFF121212),
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: false,
-        title: const Text(
-          'Watchlist',
-          style: TextStyle(
-            color: Colors.red,
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        backgroundColor: const Color(0xFF121212),
+        title: const Text('Watchlist', style: TextStyle(color: Colors.white)),
+        centerTitle: true,
       ),
       body: BlocBuilder<WatchlistCubit, WatchlistState>(
         builder: (context, state) {
-          if (state is WatchlistLoading) {
+          final watchlist = context.read<WatchlistCubit>().watchlistMovies;
+
+          if (watchlist.isEmpty) {
             return const Center(
-              child: CircularProgressIndicator(color: Colors.red),
-            );
-          } else if (state is WatchlistError) {
-            return Center(
               child: Text(
-                state.message,
-                style: const TextStyle(color: Colors.white),
+                'No movies added yet',
+                style: TextStyle(color: Colors.white70, fontSize: 16),
               ),
-            );
-          } else if (state is WatchlistSuccess && state.movies.isNotEmpty) {
-            return ListView.builder(
-              padding: const EdgeInsets.all(16.0),
-              itemCount: state.movies.length,
-              itemBuilder: (context, index) {
-                final movie = state.movies[index];
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 12),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF1E1E1E),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: ListTile(
-                    title: Text(
-                      movie.toString(),
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.red),
-                      onPressed: () {
-                        context
-                            .read<WatchlistCubit>()
-                            .removeFromWatchlist(movie);
-                      },
-                    ),
-                  ),
-                );
-              },
             );
           }
 
-          return const Center(
-            child: Text(
-              'No Watchlist Movies Available',
-              style: TextStyle(color: Colors.grey, fontSize: 16),
-            ),
+          return ListView.builder(
+            itemCount: watchlist.length,
+            itemBuilder: (context, index) {
+              final movie = watchlist[index];
+              final imageUrl = movie.posterPath.startsWith('http')
+                  ? movie.posterPath
+                  : 'https://image.tmdb.org/t/p/w500${movie.posterPath}';
+
+              return ListTile(
+                leading: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.network(
+                    imageUrl,
+                    width: 50,
+                    height: 75,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) =>
+                        Container(color: Colors.grey, width: 50, height: 75),
+                  ),
+                ),
+                title: Text(
+                  movie.name,
+                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+                subtitle: Text(
+                  '★ ${movie.rating}',
+                  style: const TextStyle(color: Colors.amber),
+                ),
+                trailing: IconButton(
+                  icon: const Icon(Icons.delete, color: Colors.red),
+                  onPressed: () {
+                    context.read<WatchlistCubit>().removeFromWatchlist(movie);
+                  },
+                ),
+              );
+            },
           );
         },
       ),

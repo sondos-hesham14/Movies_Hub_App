@@ -4,7 +4,7 @@ import 'cubits/home/home_cubit.dart';
 import 'screens/splash_screen.dart';
 import 'cubits/profile/profile_cubit.dart';
 import 'cubits/watchlist/watchlist_cubit.dart';
-// import 'screens/main_layout_screen.dart';
+
 void main() {
   runApp(const MyApp());
 }

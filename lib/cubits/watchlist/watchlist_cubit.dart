@@ -6,26 +6,26 @@ class WatchlistCubit extends Cubit<WatchlistState> {
 
   final List<dynamic> _watchlistMovies = [];
 
-  // Fetch watchlist movies (Simulation for API/DB calls)
-  void fetchWatchlist() async {
-    emit(WatchlistLoading());
-    try {
-      await Future.delayed(const Duration(milliseconds: 300));
-      emit(WatchlistSuccess(List.from(_watchlistMovies)));
-    } catch (e) {
-      emit(WatchlistError('Failed to load watchlist movies'));
-    }
+  // Getter لإتاحة الوصول للقائمة
+  List<dynamic> get watchlistMovies => _watchlistMovies;
+
+  void fetchWatchlist() {
+    emit(WatchlistSuccess(List.from(_watchlistMovies)));
+  }
+
+  bool isBookmarked(dynamic movie) {
+    return _watchlistMovies.any((item) => item.title == movie.title);
   }
 
   void addToWatchlist(dynamic movie) {
-    if (!_watchlistMovies.contains(movie)) {
+    if (!isBookmarked(movie)) {
       _watchlistMovies.add(movie);
       emit(WatchlistSuccess(List.from(_watchlistMovies)));
     }
   }
 
   void removeFromWatchlist(dynamic movie) {
-    _watchlistMovies.remove(movie);
+    _watchlistMovies.removeWhere((item) => item.title == movie.title);
     emit(WatchlistSuccess(List.from(_watchlistMovies)));
   }
 }

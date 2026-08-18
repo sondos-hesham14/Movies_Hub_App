@@ -4,6 +4,7 @@ import '../cubits/search/search_cubit.dart';
 import 'home_screen.dart';
 import 'profile_screen.dart';
 import 'search_screen.dart';
+import 'watchlist_screen.dart';
 
 class MainLayoutScreen extends StatefulWidget {
   const MainLayoutScreen({super.key});
@@ -21,9 +22,7 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
       create: (context) => SearchCubit(),
       child: const SearchScreen(),
     ),
-    const Center(
-      child: Text('Watchlist Screen', style: TextStyle(color: Colors.white)),
-    ),
+    const WatchlistScreen(),
     const ProfileScreen(),
   ];
 
