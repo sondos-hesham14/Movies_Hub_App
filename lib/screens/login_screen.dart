@@ -144,9 +144,9 @@ class _LoginScreenState extends State<LoginScreen>{
     },
   ),
 ),
-                    SizedBox(height: 10,),
-                    Image.asset("assets/Frame 54.png",width: double.infinity,),
-                    SizedBox(height: 40),
+                    // SizedBox(height: 10,),
+                    // Image.asset("assets/Frame 54.png",width: double.infinity,),
+                    SizedBox(height: 50),
                     Row(
                        mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -157,7 +157,10 @@ class _LoginScreenState extends State<LoginScreen>{
                          builder: (context) => const SignupScreen(), ), );},
                          child: const Text('Sign Up',style: TextStyle(color: Colors.white,fontSize: 12,),), ),
                       ],
-                    )
+                    ),
+
+                    const SizedBox(height: 30),
+ 
                 ],
               ),
             ),

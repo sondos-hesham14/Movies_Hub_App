@@ -11,8 +11,63 @@ class SignupScreen extends StatefulWidget {
 }
 class _SignupScreenState extends State<SignupScreen>{
   bool isPasswordVisible = false;
+  bool isConfirmPasswordVisible = false;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final phoneController = TextEditingController();
+   final usernameController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+  
+  void signUp() {
+    String phone = phoneController.text.trim();
+    String username = usernameController.text.trim();
+    
+    if(username.isEmpty){
+      ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Please enter your username '),
+      ),);
+
+    }
+    if(phone.isEmpty){
+      ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Please enter your password '),
+      ),);
+
+    }
+
+    if(username.length>20){
+       ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('user name must not exceed 20 characters.'),
+      ),
+    );
+     return;
+    }
+    if (phone.length != 11 || (!phone.startsWith('011')&&!phone.startsWith('012')&&!phone.startsWith('015'))) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Please Enter a Valid Phone Number'),
+      ),
+    );
+    return;
+  }
+  if (passwordController.text != confirmPasswordController.text) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Passwords do not match'),
+      ),
+    );
+    return;
+  }
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(
+      builder: (context) => const MainLayoutScreen(),
+    ),
+  );
+}
    @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -111,6 +166,109 @@ class _SignupScreenState extends State<SignupScreen>{
                   ),
                 ),
               ),
+              SizedBox(height: 8,),
+
+                      TextField(
+                    controller: confirmPasswordController,
+                         obscureText: !isConfirmPasswordVisible,
+                        style: const TextStyle(
+                       color: Colors.white,
+                       fontSize: 15,
+                       ),
+                   decoration: InputDecoration(
+                       hintText: 'Confirm Password',
+                       hintStyle: const TextStyle(
+                       color: Color(0xFF939392),
+                       fontSize: 12,
+                    ),
+                   enabledBorder: OutlineInputBorder(
+                       borderRadius: BorderRadius.circular(15),
+                       borderSide: const BorderSide(
+                       color: Color(0xFF2D2B2D),
+                       ),
+                    ),
+                    filled: true,
+                    fillColor: const Color(0xFF121011),
+                    contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 14,
+                    ),
+                  suffixIcon: IconButton(
+                     onPressed: () {
+                     setState(() {
+                          isConfirmPasswordVisible = !isConfirmPasswordVisible;
+                        });
+                      },
+                     icon: Icon(
+                     isConfirmPasswordVisible ? Icons.visibility: Icons.visibility_off,
+                     color: const Color(0xFF939392),
+                    ),
+                  ),
+                ),
+              ),
+               
+
+ SizedBox(height: 8,),
+
+               TextField(
+  controller: usernameController,
+  style: const TextStyle(
+    color: Colors.white,
+    fontSize: 15,
+  ),
+  decoration: InputDecoration(
+    hintText: 'User Name',
+    hintStyle: const TextStyle(
+      color: Color(0xFF939392),
+      fontSize: 12,
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(15),
+      borderSide: const BorderSide(
+        color: Color(0xFF2D2B2D),
+      ),
+    ),
+    filled: true,
+    fillColor: const Color(0xFF121011),
+    contentPadding: const EdgeInsets.symmetric(
+      horizontal: 12,
+      vertical: 14,
+    ),
+  ),
+),
+
+SizedBox(height: 8,),
+
+               TextField(
+  controller: phoneController,
+  maxLength: 11,
+  style: const TextStyle(
+    color: Colors.white,
+    fontSize: 15,
+  ),
+  decoration: InputDecoration(
+    hintText: 'Phone Number',
+    hintStyle: const TextStyle(
+      color: Color(0xFF939392),
+      fontSize: 12,
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(15),
+      borderSide: const BorderSide(
+        color: Color(0xFF2D2B2D),
+      ),
+    ),
+    filled: true,
+    fillColor: const Color(0xFF121011),
+    contentPadding: const EdgeInsets.symmetric(
+      horizontal: 12,
+      vertical: 14,
+    ),
+  ),
+),
+
+
+
                   
                   SizedBox(height: 59,),
                    SizedBox(
@@ -120,10 +278,7 @@ class _SignupScreenState extends State<SignupScreen>{
     builder: (context) {
       return ElevatedButton(
         onPressed: () {
-          context.read<AuthCubit>().login(
-            emailController.text.trim(),
-            passwordController.text.trim(),
-          );
+          signUp();
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFFF52B3B),
@@ -143,9 +298,9 @@ class _SignupScreenState extends State<SignupScreen>{
     },
   ),
 ),
-                    SizedBox(height: 10,),
-                    Image.asset("assets/Frame 54.png",width: double.infinity,),
-                    SizedBox(height: 40),
+                    // SizedBox(height: 10,),
+                    // Image.asset("assets/Frame 54.png",width: double.infinity,),
+                    SizedBox(height: 50),
                     Row(
                        mainAxisAlignment: MainAxisAlignment.center,
                       children: [
