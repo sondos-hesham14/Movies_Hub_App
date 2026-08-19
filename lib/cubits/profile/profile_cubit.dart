@@ -4,31 +4,40 @@ import 'profile_state.dart';
 class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit() : super(ProfileInitial());
 
-  final List<dynamic> _favourites = [];
-
-  // Fetch user profile data and favourite movies
   void fetchProfileData() async {
     emit(ProfileLoading());
     try {
-      await Future.delayed(const Duration(milliseconds: 300));
+      await Future.delayed(const Duration(milliseconds: 500));
       emit(ProfileSuccess(
-        userName: 'User Name',
-        favouriteMovies: List.from(_favourites),
+        userName: "John",
+        email: "john@example.com",
+        phone: "01012345678",
+        password: "password123",
+        favouriteMovies: [],
       ));
     } catch (e) {
-      emit(ProfileError('Failed to load profile data'));
+      emit(ProfileError("Failed to load profile data"));
     }
   }
-  
-  void toggleFavourite(dynamic movie) {
-    if (_favourites.contains(movie)) {
-      _favourites.remove(movie);
-    } else {
-      _favourites.add(movie);
+
+  void updateUserData({
+    required String newName,
+    required String newEmail,
+    required String newPhone,
+    required String newPassword,
+  }) {
+    if (state is ProfileSuccess) {
+      final currentState = state as ProfileSuccess;
+      emit(currentState.copyWith(
+        userName: newName,
+        email: newEmail,
+        phone: newPhone,
+        password: newPassword,
+      ));
     }
-    emit(ProfileSuccess(
-      userName: 'User Name',
-      favouriteMovies: List.from(_favourites),
-    ));
+  }
+
+  void signOut() {
+    
   }
 }
