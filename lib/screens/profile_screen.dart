@@ -146,39 +146,38 @@ class ProfileScreen extends StatelessWidget {
 
                   const SizedBox(height: 40),
 
-                  //sign out button
-                  SizedBox(
-                    width: double.infinity,
-                    height: 48,
-                    child: ElevatedButton.icon(
-                      onPressed: () {
-                        context.read<ProfileCubit>().signOut();
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SignupScreen(),
-                          ),
-                          (route) => false,
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF1E1E1E),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          side: const BorderSide(color: Colors.red, width: 1),
-                        ),
+                  //Signout Button
+                SizedBox(
+                 width: double.infinity,
+                 height: 48,
+                 child: ElevatedButton.icon(
+                 onPressed: () {
+                 Navigator.pushAndRemoveUntil(
+                  context,
+                    MaterialPageRoute(
+                    builder: (context) => const SignupScreen(),
                       ),
-                      icon: const Icon(Icons.logout, color: Colors.red),
-                      label: const Text(
-                        'Sign Out',
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
+                    (route) => false,
+                   );
+                  },
+                 style: ElevatedButton.styleFrom(
+                 backgroundColor: const Color(0xFF1E1E1E),
+                 shape: RoundedRectangleBorder(
+                 borderRadius: BorderRadius.circular(8),
+                 side: const BorderSide(color: Colors.red, width: 1),
                   ),
+                 ),
+                icon: const Icon(Icons.logout, color: Colors.red),
+                 label: const Text(
+                      'Sign Out',
+                    style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    ),
+                   ),
+                  ),
+                ),
                   const SizedBox(height: 20),
                 ],
               ),
