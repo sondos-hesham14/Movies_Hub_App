@@ -9,8 +9,8 @@ class ProfileCubit extends Cubit<ProfileState> {
     try {
       await Future.delayed(const Duration(milliseconds: 500));
       emit(ProfileSuccess(
-        userName: "John",
-        email: "john@example.com",
+        userName: "Username",
+        email: "username@example.com",
         phone: "01012345678",
         password: "password123",
         favouriteMovies: [],
@@ -35,9 +35,5 @@ class ProfileCubit extends Cubit<ProfileState> {
         password: newPassword,
       ));
     }
-  }
-
-  void signOut() {
-    
   }
 }
